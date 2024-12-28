@@ -8,10 +8,23 @@ Convert animated WebP files to GIF format while preserving animation timing and 
 pip install -r requirements.txt
 ```
 
+If you encounter any issues, you might need to install system-level WebP dependencies:
+
+### Ubuntu/Debian
+```bash
+sudo apt-get install webp libwebp-dev
+```
+
+### macOS
+```bash
+brew install webp
+```
+
 ## Usage
 
 ```bash
 python -m src.cli input.webp output.gif
+python -m src.cli 20241227-001-giphy.webp 20241227-001-giphy.gif
 ```
 
 ## Features
@@ -22,5 +35,4 @@ python -m src.cli input.webp output.gif
 
 ## Requirements
 - Python 3.8+
-- Pillow
-- webp
+- Pillow (with WebP support)
