@@ -1,3 +1,5 @@
+import argparse
+from pathlib import Path
 from PIL import Image
 from typing import Tuple, List
 
@@ -61,3 +63,38 @@ class WebPConverter:
             quality=95,  # Higher quality
             dither=Image.Dither.FLOYDSTEINBERG  # Use dithering for better color representation
         )
+
+def main():
+    """Command line interface for WebP to GIF converter"""
+    parser = argparse.ArgumentParser(description="Convert animated WebP to GIF")
+    parser.add_argument("input", type=str, help="Input WebP file name (from inputs directory)")
+    parser.add_argument("--no-optimize", action="store_true", help="Disable GIF optimization")
+    
+    args = parser.parse_args()
+    
+    # Ensure input is from inputs directory
+    input_path = Path("inputs") / args.input
+    
+    # Create output path with same name but .gif extension
+    output_path = Path("outputs") / input_path.with_suffix('.gif').name
+    
+    # Create outputs directory if it doesn't exist
+    Path("outputs").mkdir(exist_ok=True)
+    
+    if not input_path.exists():
+        print(f"Error: Input file {input_path} does not exist")
+        print("Please place your WebP file in the 'inputs' directory")
+        return 1
+        
+    # Convert file
+    converter = WebPConverter()
+    try:
+        converter.convert(str(input_path), str(output_path), not args.no_optimize)
+        print(f"Successfully converted {input_path} to {output_path}")
+        return 0
+    except Exception as e:
+        print(f"Error during conversion: {e}")
+        return 1
+
+if __name__ == "__main__":
+    main() 

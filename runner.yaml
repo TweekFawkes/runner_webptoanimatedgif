@@ -1,0 +1,20 @@
+runner:
+  name: Animated WebP to Animated GIF Converter
+  description: Convert animated WebP files to GIF format while preserving animation timing and quality.
+  version: 0.0.1
+
+build:
+  memorysize: 1280
+  commands: |
+    echo "START: Building the runner"
+    apt install -y webp libwebp-dev
+    python3 -m pip install -U -r requirements.txt
+    echo "END: Building the runner"
+
+webform:
+  - name: image_name
+    prompt: Animated WebP to Convert
+    type: file
+
+launch:
+  command: app.py ${image_name}
